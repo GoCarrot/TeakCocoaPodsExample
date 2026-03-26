@@ -1,0 +1,18 @@
+PODS:
+  - Teak (4.3.11):
+    - Teak/Core (= 4.3.11)
+  - Teak/Core (4.3.11)
+
+DEPENDENCIES:
+  - Teak (~> 4.3)
+
+SPEC REPOS:
+  trunk:
+    - Teak
+
+SPEC CHECKSUMS:
+  Teak: 6840cad3a3c5bc41bc1159bfabcc48ce03a23610
+
+PODFILE CHECKSUM: 701913f74eb6aa0ee24bd095f853744f5e93a48e
+
+COCOAPODS: 1.16.2
