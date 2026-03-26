@@ -8,3 +8,15 @@ target 'TeakSwiftCleanroomPods' do
   # Pods for TeakSwiftCleanroomPods
   pod 'Teak', '~> 4.3'
 end
+
+target 'TeakNotificationService' do
+  use_frameworks!
+
+  pod 'Teak/Extension', '~> 4.3'
+end
+
+target 'TeakContentExtension' do
+  use_frameworks!
+
+  pod 'Teak/Extension', '~> 4.3'
+end
