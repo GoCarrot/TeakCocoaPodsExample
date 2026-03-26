@@ -5,8 +5,8 @@ PODS:
   - Teak/Extension (4.3.11)
 
 DEPENDENCIES:
-  - Teak (~> 4.3)
-  - Teak/Extension (~> 4.3)
+  - Teak
+  - Teak/Extension
 
 SPEC REPOS:
   trunk:
@@ -15,6 +15,6 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Teak: 6840cad3a3c5bc41bc1159bfabcc48ce03a23610
 
-PODFILE CHECKSUM: a6d4f23ca8211981b78ef795d4c1cbf3d8b6301f
+PODFILE CHECKSUM: 4e628ccb314187379bd42083d08e813cb39ad522
 
 COCOAPODS: 1.16.2
