@@ -27,6 +27,13 @@ An SDK cannot provide a universal ActivityAttributes type because:
 2. The widget extension must compile the type to render the UI.
 3. Different apps have different Live Activity use cases.
 
+ActivityAttributes have two parts:
+- **Static properties** (on the struct itself) — set at creation, immutable for
+  the activity's lifetime. Example: `name: String`. Included in push-to-start
+  payloads but NOT in update payloads.
+- **ContentState** (nested struct) — changes over time via updates. This is what
+  the server sends in the `content-state` push payload field.
+
 An app can define **multiple** ActivityAttributes types. Each one gets:
 - Its own push-to-start token (per-type, per-device)
 - Its own per-instance activity push tokens
@@ -214,7 +221,9 @@ delivery failures and waste the app's push notification budget.
     "timestamp": 1705547770,
     "event": "start",
     "attributes-type": "TimerActivityAttributes",
-    "attributes": {},
+    "attributes": {
+      "name": "My Timer"
+    },
     "content-state": {
       "endDate": "2025-01-18T12:06:10Z",
       "status": "In Progress"
