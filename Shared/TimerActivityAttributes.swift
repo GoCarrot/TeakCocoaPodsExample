@@ -22,9 +22,9 @@ struct TimerActivityAttributes: ActivityAttributes {
         var status: String
     }
 
-    // No static (per-activity) properties for this demo.
-    // In a real app, you might have something like:
-    //   var activityName: String
-    //   var userId: String
-    // These are set once at activity creation and never change.
+    /// Static attributes are set at creation time and cannot change for the
+    /// lifetime of the activity. Both local starts and push-to-start payloads
+    /// provide these values. The widget extension can reference them alongside
+    /// the dynamic ContentState.
+    var name: String
 }

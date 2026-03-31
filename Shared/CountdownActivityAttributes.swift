@@ -21,5 +21,6 @@ struct CountdownActivityAttributes: ActivityAttributes {
         var phase: String
     }
 
-    // No static properties for this demo.
+    /// Static attributes — set at creation, immutable for the activity's lifetime.
+    var name: String
 }

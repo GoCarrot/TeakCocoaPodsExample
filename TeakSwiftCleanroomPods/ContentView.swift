@@ -101,7 +101,7 @@ struct ContentView: View {
 
         // 2. Request the activity. pushType: .token is required to receive push
         //    tokens — without it, only local updates work.
-        let attributes = TimerActivityAttributes()
+        let attributes = TimerActivityAttributes(name: "My Timer")
         let content = ActivityContent(state: initialState, staleDate: endDate)
 
         do {
@@ -219,7 +219,7 @@ struct ContentView: View {
             phase: "Active"
         )
 
-        let attributes = CountdownActivityAttributes()
+        let attributes = CountdownActivityAttributes(name: "My Countdown")
         let content = ActivityContent(state: initialState, staleDate: endDate)
 
         do {

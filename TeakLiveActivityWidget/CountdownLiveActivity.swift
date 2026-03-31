@@ -7,7 +7,7 @@ import SwiftUI
 struct CountdownLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: CountdownActivityAttributes.self) { context in
-            CountdownLockScreenView(state: context.state)
+            CountdownLockScreenView(name: context.attributes.name, state: context.state)
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
@@ -42,12 +42,13 @@ struct CountdownLiveActivity: Widget {
 /// Lock Screen view for countdown activities. Blue background visually
 /// distinguishes this from timer activities (red).
 struct CountdownLockScreenView: View {
+    let name: String
     let state: CountdownActivityAttributes.ContentState
 
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Label("Countdown", systemImage: "hourglass")
+                Label(name, systemImage: "hourglass")
                     .font(.headline)
                     .foregroundStyle(.white)
 
