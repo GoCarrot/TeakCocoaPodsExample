@@ -20,3 +20,11 @@ target 'TeakContentExtension' do
 
   pod 'Teak/Extension'
 end
+
+target 'TeakLiveActivityWidget' do
+  use_frameworks!
+  # No pods for the widget extension at this time.
+  #
+  # When Teak adds Live Activity SDK support:
+  #   pod 'Teak/LiveActivity'
+end

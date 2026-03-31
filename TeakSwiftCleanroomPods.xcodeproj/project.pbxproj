@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		44601B93F7581854A7A1FB90 /* Pods_TeakNotificationService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A20D99C64507C18DD51F42 /* Pods_TeakNotificationService.framework */; };
+		6A3B28CAA5D6B793D804AAF4 /* TeakLiveActivityWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E22E86918A8C8BCFFA6BAA27 /* TeakLiveActivityWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8D9F45FBF5181BD9E896D587 /* Pods_TeakContentExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 105F381024CA2C684AEA3854 /* Pods_TeakContentExtension.framework */; };
+		91676C8EB883872467ABEEF6 /* Pods_TeakLiveActivityWidget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ED6C3A98D7CC59A25ECA0E0 /* Pods_TeakLiveActivityWidget.framework */; };
 		D27336F0928B12E58C8DA4A3 /* Pods_TeakSwiftCleanroomPods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A90A792AA30C624C019D5DF1 /* Pods_TeakSwiftCleanroomPods.framework */; };
 		FA819D7A2F75DA8B006242DA /* TeakNotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = FA819D732F75DA8B006242DA /* TeakNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FA819D952F75DB8C006242DA /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA819D942F75DB8C006242DA /* UserNotifications.framework */; };
@@ -17,6 +19,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C9D7D3B9771D24A322E9182C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA34DB3E2D7679F400D1C1C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E477D5F927A61A51B1DFB35;
+			remoteInfo = TeakLiveActivityWidget;
+		};
 		FA819D782F75DA8B006242DA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FA34DB3E2D7679F400D1C1C5 /* Project object */;
@@ -42,6 +51,7 @@
 			files = (
 				FA819D7A2F75DA8B006242DA /* TeakNotificationService.appex in Embed Foundation Extensions */,
 				FA819DA12F75DB8C006242DA /* TeakContentExtension.appex in Embed Foundation Extensions */,
+				6A3B28CAA5D6B793D804AAF4 /* TeakLiveActivityWidget.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -55,9 +65,14 @@
 		43A20D99C64507C18DD51F42 /* Pods_TeakNotificationService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeakNotificationService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		63E70713EAA36E32BA25ABC1 /* Pods-TeakContentExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeakContentExtension.debug.xcconfig"; path = "Target Support Files/Pods-TeakContentExtension/Pods-TeakContentExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		70850633151861A9D3DA7E1A /* Pods-TeakSwiftCleanroomPods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeakSwiftCleanroomPods.debug.xcconfig"; path = "Target Support Files/Pods-TeakSwiftCleanroomPods/Pods-TeakSwiftCleanroomPods.debug.xcconfig"; sourceTree = "<group>"; };
+		7ED6C3A98D7CC59A25ECA0E0 /* Pods_TeakLiveActivityWidget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeakLiveActivityWidget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F41F0125D069943D0323D3A /* Pods-TeakLiveActivityWidget.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeakLiveActivityWidget.release.xcconfig"; path = "Target Support Files/Pods-TeakLiveActivityWidget/Pods-TeakLiveActivityWidget.release.xcconfig"; sourceTree = "<group>"; };
 		9A2C499E27910A2145CB8EAE /* Pods-TeakContentExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeakContentExtension.release.xcconfig"; path = "Target Support Files/Pods-TeakContentExtension/Pods-TeakContentExtension.release.xcconfig"; sourceTree = "<group>"; };
 		A6FC1337B03CCE39F012CEE2 /* Pods-TeakNotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeakNotificationService.release.xcconfig"; path = "Target Support Files/Pods-TeakNotificationService/Pods-TeakNotificationService.release.xcconfig"; sourceTree = "<group>"; };
 		A90A792AA30C624C019D5DF1 /* Pods_TeakSwiftCleanroomPods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TeakSwiftCleanroomPods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9A60C53772AD42C4B852890 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		BCAA3043447EF7136DAD6951 /* Pods-TeakLiveActivityWidget.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeakLiveActivityWidget.debug.xcconfig"; path = "Target Support Files/Pods-TeakLiveActivityWidget/Pods-TeakLiveActivityWidget.debug.xcconfig"; sourceTree = "<group>"; };
+		E22E86918A8C8BCFFA6BAA27 /* TeakLiveActivityWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TeakLiveActivityWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA34DB462D7679F400D1C1C5 /* TeakSwiftCleanroomPods.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeakSwiftCleanroomPods.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA819D732F75DA8B006242DA /* TeakNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TeakNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA819D932F75DB8C006242DA /* TeakContentExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TeakContentExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,6 +81,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0B6DF4E6FDAF7C3A494672DE /* Exceptions for "TeakLiveActivityWidget" folder in "TeakLiveActivityWidget" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 0E477D5F927A61A51B1DFB35 /* TeakLiveActivityWidget */;
+		};
 		FA34DB6B2D76815600D1C1C5 /* Exceptions for "TeakSwiftCleanroomPods" folder in "TeakSwiftCleanroomPods" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -90,6 +112,21 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		1139513F84422BAD22A603A6 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		C35E9B57A4F68068CB17CA87 /* TeakLiveActivityWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0B6DF4E6FDAF7C3A494672DE /* Exceptions for "TeakLiveActivityWidget" folder in "TeakLiveActivityWidget" target */,
+			);
+			path = TeakLiveActivityWidget;
+			sourceTree = "<group>";
+		};
 		FA34DB482D7679F400D1C1C5 /* TeakSwiftCleanroomPods */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -117,6 +154,14 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2AFD9313011BA555F126F20A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91676C8EB883872467ABEEF6 /* Pods_TeakLiveActivityWidget.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FA34DB432D7679F400D1C1C5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -146,6 +191,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1BBA05FCAB8F693B4BC70C0E /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				B9A60C53772AD42C4B852890 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
 		477707E8162C4263AE7BF648 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +207,8 @@
 				FA819D942F75DB8C006242DA /* UserNotifications.framework */,
 				FA819D962F75DB8C006242DA /* UserNotificationsUI.framework */,
 				105F381024CA2C684AEA3854 /* Pods_TeakContentExtension.framework */,
+				1BBA05FCAB8F693B4BC70C0E /* iOS */,
+				7ED6C3A98D7CC59A25ECA0E0 /* Pods_TeakLiveActivityWidget.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -167,6 +222,8 @@
 				A6FC1337B03CCE39F012CEE2 /* Pods-TeakNotificationService.release.xcconfig */,
 				63E70713EAA36E32BA25ABC1 /* Pods-TeakContentExtension.debug.xcconfig */,
 				9A2C499E27910A2145CB8EAE /* Pods-TeakContentExtension.release.xcconfig */,
+				7F41F0125D069943D0323D3A /* Pods-TeakLiveActivityWidget.release.xcconfig */,
+				BCAA3043447EF7136DAD6951 /* Pods-TeakLiveActivityWidget.debug.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -177,6 +234,8 @@
 				FA34DB482D7679F400D1C1C5 /* TeakSwiftCleanroomPods */,
 				FA819D742F75DA8B006242DA /* TeakNotificationService */,
 				FA819D982F75DB8C006242DA /* TeakContentExtension */,
+				1139513F84422BAD22A603A6 /* Shared */,
+				C35E9B57A4F68068CB17CA87 /* TeakLiveActivityWidget */,
 				FA34DB472D7679F400D1C1C5 /* Products */,
 				849404F411E770F8AE24D04D /* Pods */,
 				477707E8162C4263AE7BF648 /* Frameworks */,
@@ -189,6 +248,8 @@
 				FA34DB462D7679F400D1C1C5 /* TeakSwiftCleanroomPods.app */,
 				FA819D732F75DA8B006242DA /* TeakNotificationService.appex */,
 				FA819D932F75DB8C006242DA /* TeakContentExtension.appex */,
+				E22E86918A8C8BCFFA6BAA27 /* TeakLiveActivityWidget.appex */,
+				E22E86918A8C8BCFFA6BAA27 /* TeakLiveActivityWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -196,6 +257,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0E477D5F927A61A51B1DFB35 /* TeakLiveActivityWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 89B3997E40CE7C653A47F0A1 /* Build configuration list for PBXNativeTarget "TeakLiveActivityWidget" */;
+			buildPhases = (
+				D886E25FEB2157EF5C0BBB6F /* [CP] Check Pods Manifest.lock */,
+				B36CB6FAB9E6B7314DE1D5D3 /* Sources */,
+				2AFD9313011BA555F126F20A /* Frameworks */,
+				5497F70D24CCFCFCF64F4BC9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C35E9B57A4F68068CB17CA87 /* TeakLiveActivityWidget */,
+				1139513F84422BAD22A603A6 /* Shared */,
+			);
+			name = TeakLiveActivityWidget;
+			productName = TeakLiveActivityWidget;
+			productReference = E22E86918A8C8BCFFA6BAA27 /* TeakLiveActivityWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		FA34DB452D7679F400D1C1C5 /* TeakSwiftCleanroomPods */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FA34DB542D7679F500D1C1C5 /* Build configuration list for PBXNativeTarget "TeakSwiftCleanroomPods" */;
@@ -212,9 +295,11 @@
 			dependencies = (
 				FA819D792F75DA8B006242DA /* PBXTargetDependency */,
 				FA819DA02F75DB8C006242DA /* PBXTargetDependency */,
+				A900D675F6971EC85F241C93 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				FA34DB482D7679F400D1C1C5 /* TeakSwiftCleanroomPods */,
+				1139513F84422BAD22A603A6 /* Shared */,
 			);
 			name = TeakSwiftCleanroomPods;
 			productName = TeakSwiftCleanroomPods;
@@ -273,6 +358,9 @@
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					0E477D5F927A61A51B1DFB35 = {
+						CreatedOnToolsVersion = 16.4;
+					};
 					FA34DB452D7679F400D1C1C5 = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -301,11 +389,19 @@
 				FA34DB452D7679F400D1C1C5 /* TeakSwiftCleanroomPods */,
 				FA819D722F75DA8B006242DA /* TeakNotificationService */,
 				FA819D922F75DB8C006242DA /* TeakContentExtension */,
+				0E477D5F927A61A51B1DFB35 /* TeakLiveActivityWidget */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5497F70D24CCFCFCF64F4BC9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FA34DB442D7679F400D1C1C5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -391,6 +487,28 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TeakSwiftCleanroomPods/Pods-TeakSwiftCleanroomPods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D886E25FEB2157EF5C0BBB6F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TeakLiveActivityWidget-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		FA99801FBEADA368A1643AC8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -416,6 +534,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B36CB6FAB9E6B7314DE1D5D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FA34DB422D7679F400D1C1C5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -440,6 +565,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A900D675F6971EC85F241C93 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TeakLiveActivityWidget;
+			target = 0E477D5F927A61A51B1DFB35 /* TeakLiveActivityWidget */;
+			targetProxy = C9D7D3B9771D24A322E9182C /* PBXContainerItemProxy */;
+		};
 		FA819D792F75DA8B006242DA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FA819D722F75DA8B006242DA /* TeakNotificationService */;
@@ -453,6 +584,63 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		85FD83CB78E5F35DABD23A6B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCAA3043447EF7136DAD6951 /* Pods-TeakLiveActivityWidget.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7FLZTACJ82;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TeakLiveActivityWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TeakLiveActivityWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.teak.TeakSwiftCleanroomPods.TeakLiveActivityWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BF1DC6171DA37C3B27D969F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7F41F0125D069943D0323D3A /* Pods-TeakLiveActivityWidget.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7FLZTACJ82;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TeakLiveActivityWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TeakLiveActivityWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.teak.TeakSwiftCleanroomPods.TeakLiveActivityWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		FA34DB522D7679F500D1C1C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -751,6 +939,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		89B3997E40CE7C653A47F0A1 /* Build configuration list for PBXNativeTarget "TeakLiveActivityWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF1DC6171DA37C3B27D969F2 /* Release */,
+				85FD83CB78E5F35DABD23A6B /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		FA34DB412D7679F400D1C1C5 /* Build configuration list for PBXProject "TeakSwiftCleanroomPods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
