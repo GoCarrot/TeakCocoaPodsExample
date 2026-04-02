@@ -14,10 +14,6 @@ struct TimerActivityAttributes: ActivityAttributes {
     /// JSON field in the APNs payload. The JSON keys must exactly match these
     /// property names (or their CodingKeys if customized).
     struct ContentState: Codable, Hashable {
-        /// The time when the timer expires. The widget uses this with
-        /// Text(timerInterval:) to render an auto-updating countdown.
-        var endDate: Date
-
         /// A human-readable status string displayed alongside the timer.
         var status: String
     }

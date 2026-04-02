@@ -21,22 +21,18 @@ struct TimerLiveActivity: Widget {
                         .font(.caption)
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    Text(timerInterval: Date.now...context.state.endDate, countsDown: true)
+                    Text(context.state.status)
                         .font(.caption)
-                        .monospacedDigit()
                 }
                 DynamicIslandExpandedRegion(.bottom) {
-                    Text(context.state.status)
-                        .font(.caption2)
+                    EmptyView()
                 }
             } compactLeading: {
                 Image(systemName: "timer")
                     .foregroundStyle(.red)
             } compactTrailing: {
-                Text(timerInterval: Date.now...context.state.endDate, countsDown: true)
-                    .monospacedDigit()
+                Text(context.state.status)
                     .font(.caption)
-                    .frame(width: 44)
             } minimal: {
                 Image(systemName: "timer")
                     .foregroundStyle(.red)
@@ -64,10 +60,6 @@ struct TimerLockScreenView: View {
             }
 
             Spacer()
-
-            Text(timerInterval: Date.now...state.endDate, countsDown: true)
-                .font(.system(size: 36, weight: .bold, design: .monospaced))
-                .foregroundStyle(.white)
         }
         .padding()
         .background(.red.gradient)

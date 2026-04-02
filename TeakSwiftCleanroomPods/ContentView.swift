@@ -91,18 +91,15 @@ struct ContentView: View {
     // ========================================================================
 
     private func startTimerActivity() {
-        let endDate = Date.now.addingTimeInterval(5 * 60) // 5 minutes from now
-
-        // 1. Construct the initial ContentState with a timer end date and status.
+        // 1. Construct the initial ContentState.
         let initialState = TimerActivityAttributes.ContentState(
-            endDate: endDate,
             status: "In Progress"
         )
 
         // 2. Request the activity. pushType: .token is required to receive push
         //    tokens — without it, only local updates work.
         let attributes = TimerActivityAttributes(name: "My Timer")
-        let content = ActivityContent(state: initialState, staleDate: endDate)
+        let content = ActivityContent(state: initialState, staleDate: nil)
 
         do {
             let activity = try Activity.request(
@@ -142,16 +139,12 @@ struct ContentView: View {
     private func updateTimerActivity() {
         guard let activity = timerActivity else { return }
 
-        // Construct a new ContentState with an updated status. The endDate stays
-        // the same — the timer keeps counting down. staleDate tells the system
-        // when this content should be considered outdated.
         let updatedState = TimerActivityAttributes.ContentState(
-            endDate: activity.content.state.endDate,
             status: "Almost Done!"
         )
         let content = ActivityContent(
             state: updatedState,
-            staleDate: activity.content.state.endDate
+            staleDate: nil
         )
 
         Task {
@@ -169,7 +162,6 @@ struct ContentView: View {
         //   .default      — lingers up to 4 hours showing final state
         //   .after(Date)  — removed at the specified time
         let finalState = TimerActivityAttributes.ContentState(
-            endDate: activity.content.state.endDate,
             status: "Complete"
         )
         let content = ActivityContent(state: finalState, staleDate: nil)
