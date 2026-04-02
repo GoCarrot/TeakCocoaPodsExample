@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ActivityKit
+import WidgetKit
 import Teak
 
 @main
@@ -16,15 +17,41 @@ struct TeakSwiftCleanroomPodsApp: App {
     init() {
         Teak.initSwiftUI(forApplicationId: "1895209031564529690", andApiKey: "cbc7139c5ecf5379136f6c3f19366e3c")
     }
+    @Environment(\.scenePhase) private var scenePhase
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onOpenURL { url in
+                    print("[App] onOpenURL: \(url)")
+                }
+                .onContinueUserActivity(NSUserActivityTypeLiveActivity) { activity in
+                    print("[App] onContinueUserActivity (Live Activity tap)")
+                    print("[App]   activityType: \(activity.activityType)")
+                    if let userInfo = activity.userInfo {
+                        print("[App]   userInfo: \(userInfo)")
+                    }
+                }
+        }
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+            print("[App] scenePhase: \(oldPhase) -> \(newPhase)")
         }
     }
 }
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        print("[AppDelegate] didFinishLaunchingWithOptions")
+        if let launchOptions {
+            print("[AppDelegate]   launchOptions keys: \(launchOptions.keys.map { $0.rawValue })")
+            for (key, value) in launchOptions {
+                print("[AppDelegate]   \(key.rawValue): \(value)")
+            }
+        } else {
+            print("[AppDelegate]   launchOptions: nil")
+        }
+        print("[AppDelegate]   applicationState: \(application.applicationState.rawValue)")
+
         NotificationCenter.default.addObserver(forName: Notification.Name(TeakOnReward), object: nil, queue: nil, using:{notification in
             let rewardStatus = notification.userInfo!["status"] as! String
             switch rewardStatus {
@@ -51,6 +78,21 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         observeActivityUpdates()
 
         return true
+    }
+
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        print("[AppDelegate] configurationForConnecting")
+        if let userActivity = options.userActivities.first {
+            print("[AppDelegate]   userActivity.activityType: \(userActivity.activityType)")
+            if let userInfo = userActivity.userInfo {
+                print("[AppDelegate]   userActivity.userInfo: \(userInfo)")
+            }
+        }
+        if !options.urlContexts.isEmpty {
+            print("[AppDelegate]   urlContexts: \(options.urlContexts.map { $0.url })")
+        }
+        let config = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
+        return config
     }
 
     // MARK: - Live Activity Token Observation
