@@ -84,6 +84,38 @@ struct ContentView: View {
             }
             .padding()
         }
+        .onAppear {
+            startPushToStartTokenObservation()
+        }
+    }
+
+    // ========================================================================
+    // MARK: - Push-to-Start Token Observation
+    // ========================================================================
+
+    /// Starts push-to-start token observation for all activity types.
+    /// Called once on view appear. Push-to-start tokens are per-type (not
+    /// per-instance), persist across app launches, and should be observed
+    /// as early as possible so the system knows to generate them.
+    /// In production, this would go in application(_:didFinishLaunchingWithOptions:).
+    private func startPushToStartTokenObservation() {
+        guard timerPTSTokenTask == nil else { return }
+
+        timerPTSTokenTask = Task {
+            for await tokenData in Activity<TimerActivityAttributes>.pushToStartTokenUpdates {
+                let token = tokenData.map { String(format: "%02x", $0) }.joined()
+                print("[Timer] Push-to-start token: \(token)")
+                print("[Timer]   type: TimerActivityAttributes (covers all future instances)")
+            }
+        }
+
+        countdownPTSTokenTask = Task {
+            for await tokenData in Activity<CountdownActivityAttributes>.pushToStartTokenUpdates {
+                let token = tokenData.map { String(format: "%02x", $0) }.joined()
+                print("[Countdown] Push-to-start token: \(token)")
+                print("[Countdown]   type: CountdownActivityAttributes")
+            }
+        }
     }
 
     // ========================================================================
@@ -130,26 +162,7 @@ struct ContentView: View {
                 print("[Timer] Push token observation ended (activity ended or task cancelled)")
             }
 
-            // 4. Observe push-to-start token. Unlike activity push tokens, these
-            //    are per-TYPE, not per-instance — one token covers all future
-            //    TimerActivityAttributes activities on this device. The token
-            //    persists across app launches (the system manages it). Available
-            //    since iOS 17.2. When the server sends a "start" push using this
-            //    token, iOS creates the activity and wakes the app.
-            //
-            //    In production, this observation should start at app launch, not
-            //    on button press — the system needs to know you're interested in
-            //    these tokens as early as possible.
-            timerPTSTokenTask = Task {
-                for await tokenData in Activity<TimerActivityAttributes>.pushToStartTokenUpdates {
-                    let token = tokenData.map { String(format: "%02x", $0) }.joined()
-                    print("[Timer] Push-to-start token: \(token)")
-                    print("[Timer]   type: TimerActivityAttributes (covers all future instances)")
-                }
-                print("[Timer] Push-to-start token observation ended")
-            }
-
-            // 5. Introspect the ContentState schema — discover the JSON shape
+            // 4. Introspect the ContentState schema — discover the JSON shape
             //    the server needs for push-based updates.
             introspectContentState(initialState, typeName: "TimerActivityAttributes")
 
@@ -198,12 +211,11 @@ struct ContentView: View {
             print("[Timer] Dismissed activity")
         }
 
-        // Cancel token observation tasks — push tokens are no longer valid
-        // once the activity ends.
+        // Cancel activity push token observation — the token is no longer
+        // valid once the activity ends. Push-to-start observation continues
+        // (it's per-type, not per-instance).
         timerPushTokenTask?.cancel()
-        timerPTSTokenTask?.cancel()
         timerPushTokenTask = nil
-        timerPTSTokenTask = nil
         timerActivity = nil
     }
 
@@ -241,18 +253,6 @@ struct ContentView: View {
                     print("[Countdown]   instance: \(activity.id)")
                 }
                 print("[Countdown] Push token observation ended")
-            }
-
-            // Push-to-start token — note this is a DIFFERENT token than the
-            // Timer push-to-start token because it's for a different
-            // ActivityAttributes type. The backend needs one per type.
-            countdownPTSTokenTask = Task {
-                for await tokenData in Activity<CountdownActivityAttributes>.pushToStartTokenUpdates {
-                    let token = tokenData.map { String(format: "%02x", $0) }.joined()
-                    print("[Countdown] Push-to-start token: \(token)")
-                    print("[Countdown]   type: CountdownActivityAttributes")
-                }
-                print("[Countdown] Push-to-start token observation ended")
             }
 
             introspectContentState(initialState, typeName: "CountdownActivityAttributes")
@@ -295,9 +295,7 @@ struct ContentView: View {
         }
 
         countdownPushTokenTask?.cancel()
-        countdownPTSTokenTask?.cancel()
         countdownPushTokenTask = nil
-        countdownPTSTokenTask = nil
         countdownActivity = nil
     }
 
