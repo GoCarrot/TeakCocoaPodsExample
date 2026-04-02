@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ActivityKit
 import Teak
 
 @main
@@ -14,7 +15,6 @@ struct TeakSwiftCleanroomPodsApp: App {
 
     init() {
         Teak.initSwiftUI(forApplicationId: "1895209031564529690", andApiKey: "cbc7139c5ecf5379136f6c3f19366e3c")
-
     }
     var body: some Scene {
         WindowGroup {
@@ -46,6 +46,71 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         Teak.login("native-swift-sample-pods", with: TeakUserConfiguration())
         Teak.setStringProperty("favorite_slot", value: "demo")
         Teak.setNumberProperty("bankroll", value: 12345)
+
+        observePushToStartTokens()
+        observeActivityUpdates()
+
         return true
+    }
+
+    // MARK: - Live Activity Token Observation
+
+    /// Observe push-to-start tokens for all activity types. These are per-type,
+    /// per-device tokens that allow the server to create new activities remotely.
+    /// Must run at launch so the system knows to generate tokens.
+    private func observePushToStartTokens() {
+        Task {
+            for await tokenData in Activity<TimerActivityAttributes>.pushToStartTokenUpdates {
+                let token = tokenData.map { String(format: "%02x", $0) }.joined()
+                print("[Timer] Push-to-start token: \(token)")
+            }
+        }
+
+        Task {
+            for await tokenData in Activity<CountdownActivityAttributes>.pushToStartTokenUpdates {
+                let token = tokenData.map { String(format: "%02x", $0) }.joined()
+                print("[Countdown] Push-to-start token: \(token)")
+            }
+        }
+    }
+
+    /// Observe activityUpdates to discover activities created by push-to-start
+    /// (or any other external source), and start watching their push tokens.
+    /// Also checks for activities that already exist at launch.
+    private func observeActivityUpdates() {
+        // Pick up activities that already exist (created while app was killed)
+        for activity in Activity<TimerActivityAttributes>.activities {
+            print("[Timer] Found existing activity: \(activity.id)")
+            observeActivityPushToken(activity, label: "Timer")
+        }
+        for activity in Activity<CountdownActivityAttributes>.activities {
+            print("[Countdown] Found existing activity: \(activity.id)")
+            observeActivityPushToken(activity, label: "Countdown")
+        }
+
+        // Watch for new activities created after launch
+        Task {
+            for await activity in Activity<TimerActivityAttributes>.activityUpdates {
+                print("[Timer] New activity via activityUpdates: \(activity.id)")
+                self.observeActivityPushToken(activity, label: "Timer")
+            }
+        }
+        Task {
+            for await activity in Activity<CountdownActivityAttributes>.activityUpdates {
+                print("[Countdown] New activity via activityUpdates: \(activity.id)")
+                self.observeActivityPushToken(activity, label: "Countdown")
+            }
+        }
+    }
+
+    private func observeActivityPushToken<T: ActivityAttributes>(_ activity: Activity<T>, label: String) {
+        Task {
+            for await tokenData in activity.pushTokenUpdates {
+                let token = tokenData.map { String(format: "%02x", $0) }.joined()
+                print("[\(label)] Activity push token: \(token)")
+                print("[\(label)]   instance: \(activity.id)")
+            }
+            print("[\(label)] Push token observation ended for: \(activity.id)")
+        }
     }
 }

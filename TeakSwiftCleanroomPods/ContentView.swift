@@ -15,14 +15,11 @@ struct ContentView: View {
     @State private var timerActivity: Activity<TimerActivityAttributes>? = nil
     /// Async task observing the activity's push token updates.
     @State private var timerPushTokenTask: Task<Void, Never>? = nil
-    /// Async task observing push-to-start token updates for the Timer type.
-    @State private var timerPTSTokenTask: Task<Void, Never>? = nil
 
     // MARK: - Countdown Activity State
 
     @State private var countdownActivity: Activity<CountdownActivityAttributes>? = nil
     @State private var countdownPushTokenTask: Task<Void, Never>? = nil
-    @State private var countdownPTSTokenTask: Task<Void, Never>? = nil
 
     var body: some View {
         ScrollView {
@@ -84,38 +81,9 @@ struct ContentView: View {
             }
             .padding()
         }
-        .onAppear {
-            startPushToStartTokenObservation()
-        }
-    }
-
-    // ========================================================================
-    // MARK: - Push-to-Start Token Observation
-    // ========================================================================
-
-    /// Starts push-to-start token observation for all activity types.
-    /// Called once on view appear. Push-to-start tokens are per-type (not
-    /// per-instance), persist across app launches, and should be observed
-    /// as early as possible so the system knows to generate them.
-    /// In production, this would go in application(_:didFinishLaunchingWithOptions:).
-    private func startPushToStartTokenObservation() {
-        guard timerPTSTokenTask == nil else { return }
-
-        timerPTSTokenTask = Task {
-            for await tokenData in Activity<TimerActivityAttributes>.pushToStartTokenUpdates {
-                let token = tokenData.map { String(format: "%02x", $0) }.joined()
-                print("[Timer] Push-to-start token: \(token)")
-                print("[Timer]   type: TimerActivityAttributes (covers all future instances)")
-            }
-        }
-
-        countdownPTSTokenTask = Task {
-            for await tokenData in Activity<CountdownActivityAttributes>.pushToStartTokenUpdates {
-                let token = tokenData.map { String(format: "%02x", $0) }.joined()
-                print("[Countdown] Push-to-start token: \(token)")
-                print("[Countdown]   type: CountdownActivityAttributes")
-            }
-        }
+        // Push-to-start token observation and activityUpdates observation
+        // are in AppDelegate.didFinishLaunchingWithOptions — they must run
+        // at launch, not when a view appears.
     }
 
     // ========================================================================
