@@ -191,6 +191,41 @@ await Teak.endLiveActivity(activity, content: content, dismissalPolicy: .immedia
 Token revocation on end is particularly important. Stale tokens cause APNs
 delivery failures and waste the app's push notification budget.
 
+## Verified Requirements for Push-to-Start
+
+Discovered during testing with a live device and the Teak backend:
+
+1. **`alert` is required for start events.** Without it, APNs returns 200 but
+   the system silently drops the push. The alert triggers the user-visible
+   notification that creates the activity. Update and end events do not require
+   an alert.
+
+2. **`NSSupportsLiveActivitiesFrequentUpdates` must be `YES` in Info.plist.**
+   Without this flag, push-to-start delivery was inconsistent — sometimes
+   working, sometimes silently dropped. With the flag set, delivery is
+   reliable. This flag grants a higher push update budget; users can disable
+   it in Settings (which ends all ongoing Live Activities).
+
+3. **Date encoding uses `deferredToDate` (Swift's default).** The `endDate`
+   field encodes as `timeIntervalSinceReferenceDate` (seconds since Jan 1,
+   2001 UTC), which is a plain number in JSON. This was verified working.
+   Example: `5.minutes.from_now.to_f - Time.utc(2001,1,1).to_f` in Ruby.
+
+4. **`content-state` must include ALL ContentState fields.** If any field is
+   missing, the Live Activity shows a non-animating loading spinner instead
+   of the expected UI — effectively a crash. The system does not fall back to
+   defaults or show an error; it just hangs. This makes schema validation on
+   the server side critical.
+
+### SDK Implications
+
+- The SDK must document that apps need both `NSSupportsLiveActivities` and
+  `NSSupportsLiveActivitiesFrequentUpdates` in their Info.plist.
+- Start payloads must always include an `alert` — the SDK/backend should
+  enforce this or provide a default.
+- The backend must encode Date fields using `timeIntervalSinceReferenceDate`,
+  not ISO 8601 or Unix timestamps.
+
 ## Push Payload Reference
 
 ### Update Payload
@@ -201,7 +236,7 @@ delivery failures and waste the app's push notification budget.
     "timestamp": 1705560370,
     "event": "update",
     "content-state": {
-      "endDate": "2025-01-18T12:06:10Z",
+      "endDate": 799497600.0,
       "status": "Almost Done!"
     },
     "stale-date": 1705567570,
@@ -215,20 +250,25 @@ delivery failures and waste the app's push notification budget.
 
 ### Start Payload (push-to-start, iOS 17.2+)
 
+**`alert` is REQUIRED for start events** — without it the push is silently dropped.
+
 ```json
 {
   "aps": {
     "timestamp": 1705547770,
     "event": "start",
-    "attributes-type": "TimerActivityAttributes",
+    "attributes-type": "CountdownActivityAttributes",
     "attributes": {
-      "name": "My Timer"
+      "name": "My Countdown"
     },
     "content-state": {
-      "endDate": "2025-01-18T12:06:10Z",
-      "status": "In Progress"
+      "endDate": 799497600.0,
+      "phase": "Remotely Started"
     },
-    "alert": { "title": "...", "body": "..." }
+    "alert": {
+      "title": "Countdown Started",
+      "body": "A countdown was started remotely"
+    }
   }
 }
 ```
@@ -241,7 +281,7 @@ delivery failures and waste the app's push notification budget.
     "timestamp": 1705560370,
     "event": "end",
     "content-state": {
-      "endDate": "2025-01-18T12:06:10Z",
+      "endDate": 799497600.0,
       "status": "Complete"
     },
     "dismissal-date": 1705567570
