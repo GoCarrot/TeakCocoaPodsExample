@@ -11,7 +11,7 @@ struct TimerLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: TimerActivityAttributes.self) { context in
             // Lock Screen / banner presentation
-            TimerLockScreenView(state: context.state)
+            TimerLockScreenView(name: context.attributes.name, state: context.state)
         } dynamicIsland: { context in
             // Dynamic Island is required by the API even on devices without
             // Dynamic Island hardware. Provides fallback presentations.
@@ -21,22 +21,18 @@ struct TimerLiveActivity: Widget {
                         .font(.caption)
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    Text(timerInterval: Date.now...context.state.endDate, countsDown: true)
+                    Text(context.state.status)
                         .font(.caption)
-                        .monospacedDigit()
                 }
                 DynamicIslandExpandedRegion(.bottom) {
-                    Text(context.state.status)
-                        .font(.caption2)
+                    EmptyView()
                 }
             } compactLeading: {
                 Image(systemName: "timer")
                     .foregroundStyle(.red)
             } compactTrailing: {
-                Text(timerInterval: Date.now...context.state.endDate, countsDown: true)
-                    .monospacedDigit()
+                Text(context.state.status)
                     .font(.caption)
-                    .frame(width: 44)
             } minimal: {
                 Image(systemName: "timer")
                     .foregroundStyle(.red)
@@ -48,12 +44,13 @@ struct TimerLiveActivity: Widget {
 /// Lock Screen view for timer activities. Red background visually
 /// distinguishes this from countdown activities (blue).
 struct TimerLockScreenView: View {
+    let name: String
     let state: TimerActivityAttributes.ContentState
 
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Label("Timer", systemImage: "timer")
+                Label(name, systemImage: "timer")
                     .font(.headline)
                     .foregroundStyle(.white)
 
@@ -63,10 +60,6 @@ struct TimerLockScreenView: View {
             }
 
             Spacer()
-
-            Text(timerInterval: Date.now...state.endDate, countsDown: true)
-                .font(.system(size: 36, weight: .bold, design: .monospaced))
-                .foregroundStyle(.white)
         }
         .padding()
         .background(.red.gradient)

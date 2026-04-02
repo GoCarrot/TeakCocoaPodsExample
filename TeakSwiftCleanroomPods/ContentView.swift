@@ -15,14 +15,11 @@ struct ContentView: View {
     @State private var timerActivity: Activity<TimerActivityAttributes>? = nil
     /// Async task observing the activity's push token updates.
     @State private var timerPushTokenTask: Task<Void, Never>? = nil
-    /// Async task observing push-to-start token updates for the Timer type.
-    @State private var timerPTSTokenTask: Task<Void, Never>? = nil
 
     // MARK: - Countdown Activity State
 
     @State private var countdownActivity: Activity<CountdownActivityAttributes>? = nil
     @State private var countdownPushTokenTask: Task<Void, Never>? = nil
-    @State private var countdownPTSTokenTask: Task<Void, Never>? = nil
 
     var body: some View {
         ScrollView {
@@ -84,6 +81,9 @@ struct ContentView: View {
             }
             .padding()
         }
+        // Push-to-start token observation and activityUpdates observation
+        // are in AppDelegate.didFinishLaunchingWithOptions — they must run
+        // at launch, not when a view appears.
     }
 
     // ========================================================================
@@ -91,18 +91,15 @@ struct ContentView: View {
     // ========================================================================
 
     private func startTimerActivity() {
-        let endDate = Date.now.addingTimeInterval(5 * 60) // 5 minutes from now
-
-        // 1. Construct the initial ContentState with a timer end date and status.
+        // 1. Construct the initial ContentState.
         let initialState = TimerActivityAttributes.ContentState(
-            endDate: endDate,
             status: "In Progress"
         )
 
         // 2. Request the activity. pushType: .token is required to receive push
         //    tokens — without it, only local updates work.
-        let attributes = TimerActivityAttributes()
-        let content = ActivityContent(state: initialState, staleDate: endDate)
+        let attributes = TimerActivityAttributes(name: "My Timer")
+        let content = ActivityContent(state: initialState, staleDate: nil)
 
         do {
             let activity = try Activity.request(
@@ -130,26 +127,7 @@ struct ContentView: View {
                 print("[Timer] Push token observation ended (activity ended or task cancelled)")
             }
 
-            // 4. Observe push-to-start token. Unlike activity push tokens, these
-            //    are per-TYPE, not per-instance — one token covers all future
-            //    TimerActivityAttributes activities on this device. The token
-            //    persists across app launches (the system manages it). Available
-            //    since iOS 17.2. When the server sends a "start" push using this
-            //    token, iOS creates the activity and wakes the app.
-            //
-            //    In production, this observation should start at app launch, not
-            //    on button press — the system needs to know you're interested in
-            //    these tokens as early as possible.
-            timerPTSTokenTask = Task {
-                for await tokenData in Activity<TimerActivityAttributes>.pushToStartTokenUpdates {
-                    let token = tokenData.map { String(format: "%02x", $0) }.joined()
-                    print("[Timer] Push-to-start token: \(token)")
-                    print("[Timer]   type: TimerActivityAttributes (covers all future instances)")
-                }
-                print("[Timer] Push-to-start token observation ended")
-            }
-
-            // 5. Introspect the ContentState schema — discover the JSON shape
+            // 4. Introspect the ContentState schema — discover the JSON shape
             //    the server needs for push-based updates.
             introspectContentState(initialState, typeName: "TimerActivityAttributes")
 
@@ -161,16 +139,12 @@ struct ContentView: View {
     private func updateTimerActivity() {
         guard let activity = timerActivity else { return }
 
-        // Construct a new ContentState with an updated status. The endDate stays
-        // the same — the timer keeps counting down. staleDate tells the system
-        // when this content should be considered outdated.
         let updatedState = TimerActivityAttributes.ContentState(
-            endDate: activity.content.state.endDate,
             status: "Almost Done!"
         )
         let content = ActivityContent(
             state: updatedState,
-            staleDate: activity.content.state.endDate
+            staleDate: nil
         )
 
         Task {
@@ -188,7 +162,6 @@ struct ContentView: View {
         //   .default      — lingers up to 4 hours showing final state
         //   .after(Date)  — removed at the specified time
         let finalState = TimerActivityAttributes.ContentState(
-            endDate: activity.content.state.endDate,
             status: "Complete"
         )
         let content = ActivityContent(state: finalState, staleDate: nil)
@@ -198,12 +171,11 @@ struct ContentView: View {
             print("[Timer] Dismissed activity")
         }
 
-        // Cancel token observation tasks — push tokens are no longer valid
-        // once the activity ends.
+        // Cancel activity push token observation — the token is no longer
+        // valid once the activity ends. Push-to-start observation continues
+        // (it's per-type, not per-instance).
         timerPushTokenTask?.cancel()
-        timerPTSTokenTask?.cancel()
         timerPushTokenTask = nil
-        timerPTSTokenTask = nil
         timerActivity = nil
     }
 
@@ -219,7 +191,7 @@ struct ContentView: View {
             phase: "Active"
         )
 
-        let attributes = CountdownActivityAttributes()
+        let attributes = CountdownActivityAttributes(name: "My Countdown")
         let content = ActivityContent(state: initialState, staleDate: endDate)
 
         do {
@@ -241,18 +213,6 @@ struct ContentView: View {
                     print("[Countdown]   instance: \(activity.id)")
                 }
                 print("[Countdown] Push token observation ended")
-            }
-
-            // Push-to-start token — note this is a DIFFERENT token than the
-            // Timer push-to-start token because it's for a different
-            // ActivityAttributes type. The backend needs one per type.
-            countdownPTSTokenTask = Task {
-                for await tokenData in Activity<CountdownActivityAttributes>.pushToStartTokenUpdates {
-                    let token = tokenData.map { String(format: "%02x", $0) }.joined()
-                    print("[Countdown] Push-to-start token: \(token)")
-                    print("[Countdown]   type: CountdownActivityAttributes")
-                }
-                print("[Countdown] Push-to-start token observation ended")
             }
 
             introspectContentState(initialState, typeName: "CountdownActivityAttributes")
@@ -295,9 +255,7 @@ struct ContentView: View {
         }
 
         countdownPushTokenTask?.cancel()
-        countdownPTSTokenTask?.cancel()
         countdownPushTokenTask = nil
-        countdownPTSTokenTask = nil
         countdownActivity = nil
     }
 

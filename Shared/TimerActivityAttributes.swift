@@ -14,17 +14,13 @@ struct TimerActivityAttributes: ActivityAttributes {
     /// JSON field in the APNs payload. The JSON keys must exactly match these
     /// property names (or their CodingKeys if customized).
     struct ContentState: Codable, Hashable {
-        /// The time when the timer expires. The widget uses this with
-        /// Text(timerInterval:) to render an auto-updating countdown.
-        var endDate: Date
-
         /// A human-readable status string displayed alongside the timer.
         var status: String
     }
 
-    // No static (per-activity) properties for this demo.
-    // In a real app, you might have something like:
-    //   var activityName: String
-    //   var userId: String
-    // These are set once at activity creation and never change.
+    /// Static attributes are set at creation time and cannot change for the
+    /// lifetime of the activity. Both local starts and push-to-start payloads
+    /// provide these values. The widget extension can reference them alongside
+    /// the dynamic ContentState.
+    var name: String
 }
